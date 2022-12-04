@@ -20,6 +20,12 @@ class DemoUtilsTest {
     }
 
     @Test
+    @DisplayName("Multiply")
+    void testMultiply(){
+        assertEquals(12, demoUtils.multiply(3,4), "4*3 must be 12");
+    }
+
+    @Test
     @DisplayName("Equals and Not Equals")
     void testEqualsAndNotEquals(){
         System.out.println("Running test: testEqualsAndNotEquals");
