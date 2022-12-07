@@ -1,6 +1,9 @@
 package com.luv2code.tdd;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -41,5 +44,50 @@ class FizzBuzzTest {
     void testForNotDivisibleByThreeAndFive(){
         String expected = "1";
         assertEquals(expected, FizzBuzz.computer(1), "Should return 1");
+    }
+
+    @DisplayName("Loop over array")
+    @Test
+    @Order(5)
+    void testLoopOverArray(){
+        String[][] data = {
+                {"1", "1"},
+                {"2", "2"},
+                {"3", "Fizz"},
+                {"4", "4"},
+                {"5", "Buzz"},
+                {"6", "Fizz"},
+                {"7", "7"}
+        };
+
+        for (String[] record : data) {
+            String value = record[0];
+            String expected = record[1];
+            assertEquals(expected, FizzBuzz.computer(Integer.parseInt(value)));
+        }
+    }
+
+    @DisplayName("Testing with csv data")
+    @ParameterizedTest(name = "value={0}, expected={1}")
+    @CsvSource({
+            "1,1",
+            "2,2",
+            "3,Fizz",
+            "4,4",
+            "5,Buzz",
+            "6,Fizz",
+            "7,7"
+    })
+    @Order(6)
+    void testCsvData(int value, String expected){
+        assertEquals(expected, FizzBuzz.computer(value));
+    }
+
+    @DisplayName("Testing with Small data file")
+    @ParameterizedTest(name = "value={0}, expected={1}")
+    @CsvFileSource(resources = "/small-test-data.csv")
+    @Order(7)
+    void testSmallDataFile(int value, String expected){
+        assertEquals(expected, FizzBuzz.computer(value));
     }
 }
