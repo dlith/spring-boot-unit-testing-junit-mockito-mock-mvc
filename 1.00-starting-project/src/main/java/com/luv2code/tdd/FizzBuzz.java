@@ -2,7 +2,7 @@ package com.luv2code.tdd;
 
 public class FizzBuzz {
 
-    public static String computer(int i) {
+    public static String compute(int i) {
 
         StringBuilder result = new StringBuilder();
 
@@ -18,7 +18,7 @@ public class FizzBuzz {
         return result.toString();
     }
 
-    /*public static String computer(int i) {
+    /*public static String compute(int i) {
 
         if((i % 3 == 0) && (i % 5 == 0)) {
             return "FizzBuzz";

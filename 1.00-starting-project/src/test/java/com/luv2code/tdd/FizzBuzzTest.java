@@ -16,7 +16,7 @@ class FizzBuzzTest {
     @Order(1)
     void testForDivisibleByThree(){
         String expected = "Fizz";
-        assertEquals(expected, FizzBuzz.computer(3), "Should return Fizz");
+        assertEquals(expected, FizzBuzz.compute(3), "Should return Fizz");
     }
 
     // If number is divisible by 5, print Buzz
@@ -25,7 +25,7 @@ class FizzBuzzTest {
     @Order(2)
     void testForDivisibleByFive(){
         String expected = "Buzz";
-        assertEquals(expected, FizzBuzz.computer(5), "Should return Buzz");
+        assertEquals(expected, FizzBuzz.compute(5), "Should return Buzz");
     }
 
     // If number is divisible by 3 and 5, print FizzBuzz
@@ -34,7 +34,7 @@ class FizzBuzzTest {
     @Order(3)
     void testForDivisibleByThreeAndFive(){
         String expected = "FizzBuzz";
-        assertEquals(expected, FizzBuzz.computer(15), "Should return FizzBuzz");
+        assertEquals(expected, FizzBuzz.compute(15), "Should return FizzBuzz");
     }
 
     // If number is NOT divisible by 3 or 5, then print the number
@@ -43,7 +43,7 @@ class FizzBuzzTest {
     @Order(4)
     void testForNotDivisibleByThreeAndFive(){
         String expected = "1";
-        assertEquals(expected, FizzBuzz.computer(1), "Should return 1");
+        assertEquals(expected, FizzBuzz.compute(1), "Should return 1");
     }
 
     @DisplayName("Loop over array")
@@ -63,7 +63,7 @@ class FizzBuzzTest {
         for (String[] record : data) {
             String value = record[0];
             String expected = record[1];
-            assertEquals(expected, FizzBuzz.computer(Integer.parseInt(value)));
+            assertEquals(expected, FizzBuzz.compute(Integer.parseInt(value)));
         }
     }
 
@@ -80,7 +80,7 @@ class FizzBuzzTest {
     })
     @Order(6)
     void testCsvData(int value, String expected){
-        assertEquals(expected, FizzBuzz.computer(value));
+        assertEquals(expected, FizzBuzz.compute(value));
     }
 
     @DisplayName("Testing with Small data file")
@@ -88,6 +88,22 @@ class FizzBuzzTest {
     @CsvFileSource(resources = "/small-test-data.csv")
     @Order(7)
     void testSmallDataFile(int value, String expected){
-        assertEquals(expected, FizzBuzz.computer(value));
+        assertEquals(expected, FizzBuzz.compute(value));
+    }
+
+    @DisplayName("Testing with Medium data file")
+    @ParameterizedTest(name="value={0}, expected={1}")
+    @CsvFileSource(resources="/medium-test-data.csv")
+    @Order(8)
+    void testMediumDataFile(int value, String expected) {
+        assertEquals(expected, FizzBuzz.compute(value));
+    }
+
+    @DisplayName("Testing with Large data file")
+    @ParameterizedTest(name="value={0}, expected={1}")
+    @CsvFileSource(resources="/large-test-data.csv")
+    @Order(9)
+    void testLargeDataFile(int value, String expected) {
+        assertEquals(expected, FizzBuzz.compute(value));
     }
 }
