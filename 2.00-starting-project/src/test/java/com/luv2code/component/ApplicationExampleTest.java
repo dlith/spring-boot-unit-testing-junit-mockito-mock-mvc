@@ -3,6 +3,7 @@ package com.luv2code.component;
 import com.luv2code.component.models.CollegeStudent;
 import com.luv2code.component.models.StudentGrades;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = MvcTestingExampleApplication.class)
 class ApplicationExampleTest {
@@ -41,8 +44,19 @@ class ApplicationExampleTest {
         student.setStudentGrades(studentGrades);
     }
 
+    @DisplayName("Add grade results for student grades")
     @Test
-    void basicTest(){
+    void addGradeResultForStudentGrades(){
+        assertEquals(315.11, studentGrades.addGradeResultsForSingleClass(
+                student.getStudentGrades().getMathGradeResults()
+        ));
+    }
 
+    @DisplayName("Add grade results for student grades not equal")
+    @Test
+    public void addGradeResultForStudentGradesAssertNotEquals(){
+        assertNotEquals(0, studentGrades.addGradeResultsForSingleClass(
+                student.getStudentGrades().getMathGradeResults()
+        ));
     }
 }
