@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudentDao extends CrudRepository<CollegeStudent, Integer> {
+
+    public CollegeStudent findByEmailAddress(String emailAddress);
 }
