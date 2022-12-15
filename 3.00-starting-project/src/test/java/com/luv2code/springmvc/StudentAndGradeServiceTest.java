@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,20 @@ class StudentAndGradeServiceTest {
         }
 
         assertEquals(1, collegeStudents.size());
+    }
+
+    @Sql("/insertData.sql")
+    @Test
+    void getGradebookServiceWithSql(){
+        Iterable<CollegeStudent> iterableCollegeStudents = studentService.getGradebook();
+
+        List<CollegeStudent> collegeStudents = new ArrayList<>();
+
+        for(CollegeStudent collegeStudent: iterableCollegeStudents) {
+            collegeStudents.add(collegeStudent);
+        }
+
+        assertEquals(5, collegeStudents.size());
     }
 
     @AfterEach
