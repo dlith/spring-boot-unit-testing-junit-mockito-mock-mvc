@@ -34,6 +34,11 @@ public class GradebookController {
 
 	@GetMapping("/delete/student/{id}")
 	public String deleteStudent(@PathVariable int id, Model model) {
+
+		if(!studentAndGradeService.checkIfStudentIsNull(id)){
+			return "error";
+		}
+
 		studentAndGradeService.deleteStudent(id);
 		Iterable<CollegeStudent> collegeStudents = studentAndGradeService.getGradebook();
 		model.addAttribute("students", collegeStudents);
