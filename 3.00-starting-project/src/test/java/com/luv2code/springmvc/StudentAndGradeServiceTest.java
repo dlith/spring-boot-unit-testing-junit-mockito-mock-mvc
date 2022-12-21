@@ -1,8 +1,10 @@
 package com.luv2code.springmvc;
 
 import com.luv2code.springmvc.models.CollegeStudent;
+import com.luv2code.springmvc.models.HistoryGrade;
 import com.luv2code.springmvc.models.MathGrade;
 import com.luv2code.springmvc.models.ScienceGrade;
+import com.luv2code.springmvc.repository.HistoryGradeDao;
 import com.luv2code.springmvc.repository.MathGradeDao;
 import com.luv2code.springmvc.repository.ScienceGradeDao;
 import com.luv2code.springmvc.repository.StudentDao;
@@ -39,6 +41,9 @@ class StudentAndGradeServiceTest {
 
     @Autowired
     private ScienceGradeDao scienceGradeDao;
+
+    @Autowired
+    private HistoryGradeDao historyGradeDao;
 
     @BeforeEach
     void setupDB(){
@@ -102,12 +107,15 @@ class StudentAndGradeServiceTest {
     void createGradeService(){
         assertTrue(studentService.createGrade(80.50, 1, "math"));
         assertTrue(studentService.createGrade(80.50, 1, "science"));
+        assertTrue(studentService.createGrade(80.50, 1, "history"));
 
         Iterable<MathGrade> mathGrades = mathGradeDao.findGradeByStudentId(1);
         Iterable<ScienceGrade> scienceGrades = scienceGradeDao.findGradeByStudentId(1);
+        Iterable<HistoryGrade> historyGrades = historyGradeDao.findGradeByStudentId(1);
 
         assertTrue(mathGrades.iterator().hasNext(), "Student has math grades");
         assertTrue(scienceGrades.iterator().hasNext(), "Student has science grades");
+        assertTrue(historyGrades.iterator().hasNext(), "Student has history grades");
     }
 
     @AfterEach
