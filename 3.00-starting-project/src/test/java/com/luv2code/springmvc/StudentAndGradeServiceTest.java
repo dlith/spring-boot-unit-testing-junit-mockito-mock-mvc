@@ -73,12 +73,26 @@ class StudentAndGradeServiceTest {
     @Test
     void deleteStudentService(){
         Optional<CollegeStudent> deletedCollegeStudent = studentDao.findById(1);
+        Optional<MathGrade> deletedMathGrade = mathGradeDao.findById(1);
+        Optional<HistoryGrade> deletedHistoryGrade = historyGradeDao.findById(1);
+        Optional<ScienceGrade> deletedScienceGrade = scienceGradeDao.findById(1);
 
         assertTrue(deletedCollegeStudent.isPresent(), "Return true");
+        assertTrue(deletedMathGrade.isPresent());
+        assertTrue(deletedHistoryGrade.isPresent());
+        assertTrue(deletedScienceGrade.isPresent());
+
         studentService.deleteStudent(1);
 
         deletedCollegeStudent = studentDao.findById(1);
+        deletedMathGrade = mathGradeDao.findById(1);
+        deletedHistoryGrade = historyGradeDao.findById(1);
+        deletedScienceGrade = scienceGradeDao.findById(1);
+
         assertFalse(deletedCollegeStudent.isPresent(), "Return false");
+        assertFalse(deletedMathGrade.isPresent());
+        assertFalse(deletedHistoryGrade.isPresent());
+        assertFalse(deletedScienceGrade.isPresent());
     }
 
     @Test

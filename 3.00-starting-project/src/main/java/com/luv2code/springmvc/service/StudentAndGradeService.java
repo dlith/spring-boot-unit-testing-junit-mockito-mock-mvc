@@ -57,6 +57,9 @@ public class StudentAndGradeService {
     public void deleteStudent(int id) {
         if(checkIfStudentIsNull(id)){
             studentDao.deleteById(id);
+            mathGradeDao.deleteByStudentId(id);
+            scienceGradeDao.deleteByStudentId(id);
+            historyGradeDao.deleteByStudentId(id);
         }
     }
 
