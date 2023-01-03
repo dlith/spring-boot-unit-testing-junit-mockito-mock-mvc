@@ -169,6 +169,12 @@ class StudentAndGradeServiceTest {
         assertTrue(gradebookCollegeStudent.getStudentGrades().getScienceGradeResults().size()==1);
     }
 
+    @Test
+    void studentInformationServiceReturnNull(){
+        GradebookCollegeStudent gradebookCollegeStudent = studentService.studentInformation(0);
+        assertNull(gradebookCollegeStudent);
+    }
+
     @AfterEach
     void setupAfterTransaction(){
         jdbcTemplate.execute("delete from student");
