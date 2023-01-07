@@ -21,13 +21,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -141,6 +142,17 @@ public class GradebookControllerTest {
 
         CollegeStudent verifyStudent = studentDao.findByEmailAddress("chad.darby@gmail.com");
         assertNotNull(verifyStudent, "Student should be valid");
+    }
+
+    @Test
+    void deleteStudentHttpRequest() throws Exception {
+        assertTrue(studentDao.findById(1).isPresent());
+        mockMvc.perform(MockMvcRequestBuilders.delete("/student/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(0)));
+
+        assertFalse(studentDao.findById(1).isPresent());
     }
 
     @AfterEach
