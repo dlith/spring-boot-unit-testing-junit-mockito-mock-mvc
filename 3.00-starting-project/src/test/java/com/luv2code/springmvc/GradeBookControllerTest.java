@@ -260,6 +260,17 @@ class GradeBookControllerTest {
         assertFalse(mathGrade.isPresent());
     }
 
+    @Test
+    public void deleteAValidGradeHttpRequestStudentIdDoesNotExistEmptyResponse() throws Exception {
+        Optional<MathGrade> mathGrade = mathGradeDao.findById(2);
+        assertFalse(mathGrade.isPresent());
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/grades/{id}/{gradeType}", 2, "math"))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav, "error");
+    }
+
     @AfterEach
     void setupAfterTransaction(){
         jdbcTemplate.execute(sqlDeleteStudent);
