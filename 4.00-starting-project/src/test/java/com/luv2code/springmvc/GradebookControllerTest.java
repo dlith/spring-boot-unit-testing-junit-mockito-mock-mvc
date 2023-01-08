@@ -2,6 +2,7 @@ package com.luv2code.springmvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luv2code.springmvc.models.CollegeStudent;
+import com.luv2code.springmvc.models.MathGrade;
 import com.luv2code.springmvc.repository.HistoryGradesDao;
 import com.luv2code.springmvc.repository.MathGradesDao;
 import com.luv2code.springmvc.repository.ScienceGradesDao;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -230,6 +232,20 @@ public class GradebookControllerTest {
         .andExpect(status().is4xxClientError())
         .andExpect(jsonPath("$.status", is(404)))
         .andExpect(jsonPath("$.message", is("Student or Grade was not found")));
+    }
+
+    @Test
+    void deleteAValidGradeHttpRequest() throws Exception {
+        Optional<MathGrade> mathGrade = mathGradeDao.findById(1);
+        assertTrue(mathGrade.isPresent());
+        mockMvc.perform(MockMvcRequestBuilders.delete("/grades/{id}/{gradeType}", 1 , "math"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF_8))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.firstname", is("Eric")))
+                .andExpect(jsonPath("$.lastname", is("Roby")))
+                .andExpect(jsonPath("$.emailAddress", is("eric.roby@luv2code_school.com")))
+                .andExpect(jsonPath("$.studentGrades.mathGradeResults", hasSize(0)));
     }
 
     @AfterEach
