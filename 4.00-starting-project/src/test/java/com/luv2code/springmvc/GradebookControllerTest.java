@@ -27,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
@@ -164,6 +166,21 @@ public class GradebookControllerTest {
                 .andExpect(jsonPath("$.status", is(404)))
                 .andExpect(jsonPath("$.message", is("Student or Grade was not found")));
     }
+
+    @Test
+    void studentInformationHttpRequest() throws Exception {
+        Optional<CollegeStudent> student = studentDao.findById(1);
+        assertTrue(student.isPresent());
+        mockMvc.perform(MockMvcRequestBuilders.get("/studentInformation/{id}",1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF_8))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.firstname", is("Eric")))
+                .andExpect(jsonPath("$.lastname", is("Roby")))
+                .andExpect(jsonPath("$.emailAddress", is("eric.roby@luv2code_school.com")));
+
+    }
+
     @AfterEach
     public void setupAfterTransaction() {
         jdbc.execute(sqlDeleteStudent);
